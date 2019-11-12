@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Models Django</title>
+</head>
+<body class="container">
+    <script>
+        var maxIndex=0;
+        function addField (argument) {  
+            var myTable = document.getElementById("myTable");
+            var currentIndex = myTable.rows.length;
+            maxIndex=currentIndex;
+            document.getElementById('output').value=parseInt(maxIndex);
+            document.getElementById('output').innerHTML = maxIndex;  
+            var currentRow = myTable.insertRow(-1);
+
+            var linksBox = document.createElement("input");
+            linksBox.setAttribute("name", "name" + currentIndex);
+
+            var keywordsBox = document.createElement("input");
+            keywordsBox.setAttribute("name", "date" + currentIndex);
+
+            var violationsBox = document.createElement("input");
+            violationsBox.setAttribute("name", "spending" + currentIndex);
+
+            var addRowBox = document.createElement("input");
+            addRowBox.setAttribute("type", "button");
+            addRowBox.setAttribute("name", "maxIndex");
+            addRowBox.setAttribute("value", maxIndex);
+
+            var currentCell = currentRow.insertCell(-1);
+            currentCell.appendChild(linksBox);
+
+            currentCell = currentRow.insertCell(-1);
+            currentCell.appendChild(keywordsBox);
+
+            currentCell = currentRow.insertCell(-1);
+            currentCell.appendChild(violationsBox);
+            
+    
+            currentCell = currentRow.insertCell(-1);
+            currentCell.appendChild(addRowBox);
+        }
+    </script>
+    <form method="POST" action="create/">
+        {% csrf_token %}
+        <p>
+            <label>Enter family login</label><br>
+            <input type="text" name="family" required="required"/>
+        </p>
+        <p>
+            <label>Enter key</label><br>
+            <input type="text" name="key" required="required"  pattern="^#+([0-9]{8})"/>
+        </p>
+        <input type="submit" value="Save" >
+      <!--  <table id="myTable">
+            <tr>
+                <td><label>Enter name</label><br><input type="text" name="name0" + currentIndex></td>
+                <td><label>Enter date of birth</label><br><input type="text" name="date0" + currentIndex></td>
+                <td><label>Enter spending</label><br><input type="text" name="spending0" + currentIndex></td>
+                 <td><br><input type="button",value="0",name=maxIndex></td> /nope/
+                <td><br><input type="button" class="button" value="Add another line" onclick="addField();"></td>-->
+            </tr>
+        </table>
+    </form>
+    <form method="GET" action="register/">
+        <input type="submit" value="Reg" >
+    </form>
+{% block content %}
+{% block title %}Home{% endblock %}
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!
+  <p><a href="{% url 'logout' %}">logout</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a>
+{% endif %}
+{% endblock %}
+   <!-- {% if people.count > 0 %}
+    <h2>List of users</h2>
+    <table>
+        <tr><th>Id</th><th>Name</th><th>Age</th></tr>
+        {% for person in people %}
+        <tr><td>{{ person.id }}</td><td>{{ person.name }}</td><td>{{ person.age }}</td></tr>
+        {% endfor %}
+    </table>
+    {% endif %}-->
+</body>
+</html>

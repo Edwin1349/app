@@ -1,0 +1,24 @@
+{% block body %}
+<div class="container">
+    <h1>Register</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <label>Enter family key</label><br><input type="text" name="key" required="required"  pattern="^#+([0-9]{8})"><br>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+<form action="/" method="get">
+  <input type="submit" value="Home">
+</form>
+{% endblock %}
+{% block content %}
+{% block title %}Home{% endblock %}
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!
+  <p><a href="{% url 'logout' %}">logout</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a>
+{% endif %}
+{% endblock %}

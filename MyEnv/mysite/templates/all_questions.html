@@ -1,0 +1,42 @@
+{% load grade_filters %}
+{% load mathfilters %}
+{% block content %}
+
+{% block title %}Home{% endblock %}
+    {% if user.is_authenticated %}
+        {% with my_var=0 %}
+        <br>Family:{{ family.familyName }}
+        Family`s stonks(+):{%ADD my_var budget.values %}
+        Family`s stonks(-):{%ADD_S my_var budget.values %}
+        Family`s budget:{%Budget my_var budget.values %}
+        {% for key, values in current_authos.items %}
+            <tr>
+                <br>
+                <td>{{values.username}}</td>
+                {% for key_s, values_s in budget.items%}
+                
+                {% if key == key_s %}
+                <tr>
+                    <td>Stonks(+): {% add my_var  values_s %}</td>
+                    <td>Stonks(-): {% add_s my_var  values_s %}</td>
+                    <td>Budget: {% budget my_var  values_s %}</td>
+                </tr>
+                {% endif %}
+                   
+                {% endfor %}
+                
+                <td></td>
+            </tr>
+        {% endfor %}
+        {% endwith %} 
+    <form method="POST" action="create/">
+    {% csrf_token %}
+        <p>
+            <label>Enter your stonks</label><br>
+            <input type="number" name="budget" />
+        </p>
+        <input type="submit" value="Save" >
+    </form>
+    <p><a href="{% url 'logout' %}">logout</a></p>
+    {% endif %}
+{% endblock %}
